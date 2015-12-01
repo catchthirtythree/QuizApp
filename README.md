@@ -1,2 +1,2 @@
 # QuizApp
-Simple Quiz Application, messing with Angular.
+Simple Angular / NodeJS Quiz Application
