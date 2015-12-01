@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+	
+<head>
+	<title>Quiz Application</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+	<link rel="stylesheet" href="/stylesheets/style.css">
+</head>
+
+<body class="container" ng-app="app" ng-controller="QuizController as quiz">
+	
+	<h1 style="text-align:center">Simple Quiz Application</h1>
+		
+	<div class="panel panel-primary" ng-show="quiz.quizComplete">
+		<div class="panel-heading">
+			Congratulations on finishing our quiz.
+		</div>
+		
+		<div class="panel-body">
+			Your score was {{ quiz.correctAnswers }} out of {{ quiz.questions.length }} ({{ quiz.correctAnswers / quiz.questions.length | percentage:2 }})!
+		</div>
+		
+		<div class="panel-body" ng-show="quiz.showResults">
+			<table class="table table-hover">
+				<thead>
+					<tr>
+						<th>#</th>
+						<th>Correct Answer</th>
+						<th>Your Answer</th>
+					</tr>
+				</thead>
+				<tbody ng-repeat="result in quiz.results">
+					<tr ng-class="{ success: result.correct, danger: !result.correct }">
+						<th scope="row">{{ $index + 1 }}</th>
+						<td>{{ result.questionAnswer }}</td>
+						<td>{{ result.userAnswer }}</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		
+		<div class="panel-footer">
+			<button type="submit" ng-click="quiz.reset()" class="btn btn-primary">Play Again!</button>
+			<button type="submit" ng-click="quiz.toggleResults()" ng-hide="quiz.showResults" class="btn btn-primary">Show Results</button>
+			<button type="submit" ng-click="quiz.toggleResults()" ng-show="quiz.showResults" class="btn btn-primary">Hide Results</button>
+		</div>
+	</div>
+	
+	<div class="panel panel-primary" ng-hide="quiz.quizComplete">
+		<div class="panel-heading">
+			<h4>Question {{ quiz.currentQuestion + 1}}</h4>
+			<h5>{{ quiz.questions[quiz.currentQuestion].q }}</h5>
+		</div>
+		
+		<div class="panel-body">
+			<form role="form" ng-submit="quiz.submit()">
+				<div class="form-group" ng-repeat="answer in quiz.questions[quiz.currentQuestion].choices">
+					<div class="radio">
+						<label>
+							<input type="radio" name="choices{{ quiz.currentQuestion }}" ng-model="quiz.currentAnswer" value="{{ answer }}" required>
+							{{ answer }}
+						</label>
+					</div>
+				</div>
+				
+				<button type="submit" class="btn btn-primary">Submit</button>
+			</form>
+		</div>
+		
+	</div>
+	
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.15/angular.min.js"></script>
+	<script src="/javascripts/app.js"></script>
+</body>
+
+</html>
